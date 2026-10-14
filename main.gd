@@ -2,6 +2,8 @@
 
 extends Node
 
+@onready var battle_view: BattleView = $BattleView
+
 func _ready() -> void:
 	var roster: Dictionary = RosterLoader.make_roster()
 	if roster.is_empty():
@@ -16,6 +18,10 @@ func _ready() -> void:
 
 	GridConfig.assign_positions(team_a, "A")
 	GridConfig.assign_positions(team_b, "B")
+	
+	var state := BattleState.new(team_a, team_b, strategy, cover)
+	BattleSystem.attach_console_log(state) 
+	battle_view.setup(state)
 
 	print("Positions:")
 	for c in team_a + team_b:

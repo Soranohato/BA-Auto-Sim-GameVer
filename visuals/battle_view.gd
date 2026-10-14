@@ -14,6 +14,11 @@ var _accumulator := 0.0
 
 static func grid_to_screen(p: Vector2) -> Vector2:
 	return grid_origin + p * cell_size
+	
+func setup(state_in: BattleState) -> void:
+	state = state_in
+	_spawn_views()
+	state.battle_finished.connect(_on_finished)
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_update_layout)
@@ -42,6 +47,15 @@ func _draw() -> void:
 				grid_to_screen(Vector2(x, 0.0)),
 				grid_to_screen(Vector2(x, GridConfig.GRID_HEIGHT)),
 				guide_color, 1.0)
+				
+func _spawn_views() -> void:
+	for character: Character in state.all_units:
+		var unit := CharacterView.new()
+		add_child(unit)
+		unit.setup(character)
 
 func _on_finished(winner: String) -> void:
-	pass  # TODO: show result label
+	if winner == "":
+		print("Battle over: draw / timed out")
+	else:
+		print("Battle over: Team %s wins" % winner)

@@ -62,6 +62,6 @@ static func move_toward(character: Character, defender: Character,
 		character.is_moving = false
 		return
 
-	var step := minf(GridConfig.MOVE_SPEED, dist)
+	var step := minf(GridConfig.MOVE_SPEED * BattleState.TICK_DURATION, dist)
 	character.pos += delta.normalized() * step
 	character.is_moving = (dist - step) > ARRIVAL_EPSILON
