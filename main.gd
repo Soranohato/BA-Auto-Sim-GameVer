@@ -30,5 +30,3 @@ func _ready() -> void:
 	print("Cover Objects:")
 	for obj in cover:
 		print("  %s: %s" % [obj.cover_name, obj.pos])
-
-	BattleSystem.run_battle(team_a, team_b, strategy, cover)

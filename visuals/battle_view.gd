@@ -33,7 +33,12 @@ func _update_layout() -> void:
 	queue_redraw()
 
 func _process(delta: float) -> void:
-	pass  # TODO: _accumulator += delta * sim_speed; while >= TICK_DURATION: state.tick()
+	if state == null or state.is_finished:
+		return
+	_accumulator += delta * sim_speed
+	while _accumulator >= BattleState.TICK_DURATION:
+		state.tick()
+		_accumulator -= BattleState.TICK_DURATION
 
 func _draw() -> void:
 	var grid_px := Vector2(GridConfig.GRID_WIDTH, GridConfig.GRID_HEIGHT) * cell_size
@@ -49,10 +54,24 @@ func _draw() -> void:
 				guide_color, 1.0)
 				
 func _spawn_views() -> void:
+	for cover: CoverObject in state.cover_objects:
+		var c := CoverView.new()
+		add_child(c)
+		c.setup(cover)
+		
 	for character: Character in state.all_units:
 		var unit := CharacterView.new()
 		add_child(unit)
 		unit.setup(character)
+		
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_SPACE:
+			sim_speed = 0.0
+		if event.pressed and event.keycode == KEY_1:
+			sim_speed = 1.0
+		if event.pressed and event.keycode == KEY_2:
+			sim_speed = 2.0
 
 func _on_finished(winner: String) -> void:
 	if winner == "":

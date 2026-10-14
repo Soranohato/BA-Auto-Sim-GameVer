@@ -1,15 +1,19 @@
 class_name CoverView
 extends Node2D
 
-const HALF_SIZE := 10.0
-
 var cover: CoverObject
 
 func setup(c: CoverObject) -> void:
-	pass  # TODO: store ref, position = BattleView.grid_to_screen(c.pos)
+	cover = c
+	position = BattleView.grid_to_screen(cover.pos)
 
 func _process(_delta: float) -> void:
-	pass  # TODO: queue_redraw() (cheap while there are only ~5 of these)
+	position = BattleView.grid_to_screen(cover.pos)
+	queue_redraw()
 
 func _draw() -> void:
-	pass  # TODO: square; grey out if destroyed; small HP bar when hp != null
+	var side := CoverSystem.COVER_RADIUS * 2.0 * BattleView.cell_size
+	var rect := Rect2(Vector2(-side / 2.0, -side / 2.0), Vector2(side, side))
+
+	var color := Color.DIM_GRAY if cover.is_destroyed() else Color.BLACK
+	draw_rect(rect, color)
