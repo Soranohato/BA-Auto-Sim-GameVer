@@ -15,8 +15,17 @@ const UNIT_RADIUS := 0.3
 # Screen space in PIXELS -- this is used by the visual layer and only via the 
 # 3 functions below
 const DESIGN_SIZE := Vector2(1920.0, 1080.0) # needs to match viewport
-const CELL_SIZE := 96.0 # GRID_WIDTH x VIEWPORT_WIDTH
-const GRID_ORIGIN := Vector2(0.0, (1080.0 - GRID_HEIGHT * CELL_SIZE) / 2.0)
+
+#HUD regions
+const SIDE_PANEL_WIDTH := 240.0
+const TOP_BAR_HEIGHT := 120.0
+
+# grid sized to fit between side panels
+const CELL_SIZE := (1920.0 - 2.0 * SIDE_PANEL_WIDTH) / GRID_WIDTH
+
+# grid sits between side panels and centered vertically below top bar
+const GRID_ORIGIN := Vector2(
+	SIDE_PANEL_WIDTH, TOP_BAR_HEIGHT + (1080.0 - TOP_BAR_HEIGHT - GRID_HEIGHT * CELL_SIZE) / 2.0)
 
 # grid postion -> screen position
 static func to_screen(p: Vector2) -> Vector2:
@@ -29,6 +38,17 @@ static func to_grid(screen_p: Vector2) -> Vector2:
 # grid unit length -> pixel length
 static func px(grid_units: float) -> float:
 	return grid_units * CELL_SIZE
+	
+# HUD in screen pixels
+static func top_bar_rect() -> Rect2:
+	return Rect2(0.0, 0.0, DESIGN_SIZE.x, TOP_BAR_HEIGHT)
+
+static func left_panel_rect() -> Rect2:
+	return Rect2(0.0, TOP_BAR_HEIGHT, SIDE_PANEL_WIDTH, DESIGN_SIZE.y - TOP_BAR_HEIGHT)
+
+static func right_panel_rect() -> Rect2:
+	return Rect2(DESIGN_SIZE.x - SIDE_PANEL_WIDTH, TOP_BAR_HEIGHT,
+		SIDE_PANEL_WIDTH, DESIGN_SIZE.y - TOP_BAR_HEIGHT)
 
 # actual grid function
 static func assign_positions(team: Array[Character], side: String) -> void:

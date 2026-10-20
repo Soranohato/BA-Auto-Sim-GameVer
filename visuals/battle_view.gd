@@ -45,6 +45,10 @@ func _spawn_views() -> void:
 		add_child(unit)
 		unit.setup(character)
 		
+	var hud := HudView.new()
+	add_child(hud)
+	hud.setup(state)
+		
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_SPACE:
