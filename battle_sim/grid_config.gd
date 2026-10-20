@@ -10,6 +10,7 @@ const FRONT_X := {"A": 8.0, "B": 12.0}
 const BACK_X := {"A": 2.0, "B": 18.0}
 const FRONT_ROLES := ["tank", "striker"]
 const MOVE_SPEED := 1.0
+const UNIT_RADIUS := 0.3
 
 # Screen space in PIXELS -- this is used by the visual layer and only via the 
 # 3 functions below

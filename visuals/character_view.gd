@@ -5,7 +5,7 @@ const COLOR_A := Color(0.3, 0.6, 1.0)
 const COLOR_B := Color(1.0, 0.4, 0.4)
 
 # all sizes in GRID UNITS
-const RADIUS_UNITS := 0.3
+const RADIUS_UNITS := GridConfig.UNIT_RADIUS
 const HP_BAR_WIDTH_UNITS := 1.0
 const HP_BAR_HEIGHT_UNITS := 0.12
 const HP_BAR_GAP_UNITS := 0.08

@@ -79,6 +79,7 @@ func _step_unit(attacker: Character) -> void:
 		unit_moved.emit(attacker)
 		return
 
+	attacker.is_moving = false
 	_fire_at(attacker, defender)
 	attacker.next_shot_time = current_time + AmmoSystem.SHOT_COOLDOWN
 
@@ -99,7 +100,7 @@ func _fire_at(attacker: Character, defender: Character) -> void:
 			missed.emit(attacker, defender)
 			continue
 
-		var cover_result: Array = CoverSystem.get_cover_reduction(defender, cover_objects)
+		var cover_result: Array = CoverSystem.get_cover_reduction(defender, attacker, cover_objects)
 		var cover_pct: float = cover_result[0]
 		var provider: CoverObject = cover_result[1]
 		var reduced_dmg := roundi(dmg * (1.0 - cover_pct))

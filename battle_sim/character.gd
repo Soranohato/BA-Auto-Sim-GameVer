@@ -32,6 +32,8 @@ var ammo: int
 var is_reloading: bool = false
 var next_shot_time: float = 0.0
 var reload_end_time: float = 0.0
+var cover_target: CoverObject = null   # cover this unit has claimed, if any
+var stand_pos: Vector2 = Vector2.ZERO  # where it stands behind that cover
 
 const _REQUIRED_STATS := [
 	"max_hp", "atk", "defense", "spd", "atk_range", "max_ammo",
